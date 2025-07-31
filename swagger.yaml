@@ -1,0 +1,271 @@
+openapi: 3.0.0
+info:
+  title: API 365Asig
+  version: 1.0.0
+
+paths:
+  /rca/calculate:
+    post:
+      summary: Calculate RCA
+      tags: [Rca]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RcaRequest'
+      responses:
+        '200':
+          description: OK
+
+  /rca/save:
+    post:
+      summary: Save RCA data
+      tags: [Rca]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RcaSaveRequest'
+      responses:
+        '200':
+          description: OK
+
+  /rca/file/{id}/{type}:
+    get:
+      summary: Get RCA file
+      tags: [Rca]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: "8744747"
+        - name: type
+          in: path
+          required: true
+          schema:
+            type: string
+            enum:
+              - InsurancePolicy
+              - Contract
+              - Demand
+            example: InsurancePolicy
+      responses:
+        '200':
+          description: Base64 encoded PDF file
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  filename:
+                    type: string
+                    example: "contract-123.pdf"
+                  content:
+                    type: string
+                    format: byte
+                    description: Base64 encoded content
+                    example: "JVBERi0xLjQKJeLjz9MKMSAwIG9iago8PC..."
+
+  /green-card/calculate:
+    post:
+      summary: Calculate Green Card
+      tags: [Green Card]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GreenCardCalculateRequest'
+      responses:
+        '200':
+          description: OK
+
+  /green-card/calculate/save:
+    post:
+      summary: Save Green Card calculation
+      tags: [Green Card]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GreenCardSaveRequest'
+      responses:
+        '200':
+          description: OK
+
+  /green-card/file/{id}/{type}:
+    get:
+      summary: Get Green Card Document
+      operationId: getGreenCardFileById
+      tags:
+        - Green Card
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID
+          schema:
+            type: string
+            example: "8744747"
+        - name: type
+          in: path
+          required: true
+          description: Type
+          schema:
+            type: string
+            enum:
+              - InsurancePolicy
+              - Contract
+              - Demand
+            example: InsurancePolicy
+      responses:
+        '200':
+          description: Base64 encoded PDF
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  filename:
+                    type: string
+                    example: "contract-123.pdf"
+                  content:
+                    type: string
+                    format: byte
+                    description: Base64 encoded content
+                    example: "JVBERi0xLjQKJeLjz9MKMSAwIG9iago8PC..."
+
+
+components:
+  schemas:
+    RcaRequest:
+      type: object
+      required:
+        - id
+        - certificate
+      properties:
+        id:
+          type: string
+          example: "2000000000000"
+        certificate:
+          type: string
+          example: "23456789"
+        trailer_id:
+          type: string
+          example: "298705544"
+
+    RcaSaveRequest:
+      type: object
+      required:
+        - id
+        - certificate
+        - startDate
+        - operatingMode
+        - possessionBase
+        - personType
+        - company
+        - email
+        - phone
+      properties:
+        id:
+          type: string
+          example: "2009042000670"
+        certificate:
+          type: string
+          example: "238200584"
+        startDate:
+          type: string
+          format: date
+          example: "2025-05-20"
+        operatingMode:
+          type: string
+          example: "Usual"
+        possessionBase:
+          type: string
+          example: "Property"
+        personType:
+          type: integer
+          example: 1
+        company:
+          type: string
+          example: "100000000000"
+        email:
+          type: string
+          format: email
+          example: "test@test.com"
+        phone:
+          type: string
+          example: "+373600000000"
+
+    GreenCardCalculateRequest:
+      type: object
+      required:
+        - id
+        - certificate
+        - greenCardZone
+        - termInsurance
+      properties:
+        id:
+          type: string
+          example: "2004033045913"
+        certificate:
+          type: string
+          example: "197103320"
+        greenCardZone:
+          type: string
+          example: "Z1"
+        termInsurance:
+          type: string
+          example: "m2"
+
+    GreenCardSaveRequest:
+      type: object
+      required:
+        - id
+        - certificate
+        - startDate
+        - possessionBase
+        - termInsurance
+        - greenCardZone
+        - personType
+        - company
+        - email
+        - phone
+      properties:
+        id:
+          type: string
+          example: "2009042000670"
+        certificate:
+          type: string
+          example: "238200584"
+        startDate:
+          type: string
+          format: date
+          example: "2025-05-20"
+        possessionBase:
+          type: string
+          example: "Property"
+        termInsurance:
+          type: string
+          example: "d15"
+        greenCardZone:
+          type: string
+          example: "Z1"
+        personType:
+          type: integer
+          example: 1
+        company:
+          type: string
+          example: "100000000000"
+        email:
+          type: string
+          format: email
+          example: "test@test.com"
+        phone:
+          type: string
+          example: "+373600000000"
