@@ -165,7 +165,6 @@ components:
         - id
         - certificate
         - startDate
-        - operatingMode
         - possessionBase
         - personType
         - company
@@ -182,9 +181,6 @@ components:
           type: string
           format: date
           example: "2025-05-20"
-        operatingMode:
-          type: string
-          example: "Usual"
         possessionBase:
           type: string
           example: "Property"
