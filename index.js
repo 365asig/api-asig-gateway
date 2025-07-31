@@ -10,11 +10,16 @@ const YAML = require('yamljs');
 const path = require('path');
 
 const swaggerDocument = YAML.load(path.join(__dirname, 'swagger.yaml'));
-app.use('/api/documentation', basicAuth({
-  users: { '365asig': 'X9rTq4LpV8' },
-  challenge: true,
-  unauthorizedResponse: req => 'Authorization'
-}), swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+app.use('/api/documentation', (req, res, next) => {
+  basicAuth({
+    users: { '365asig': 'X9rTq4LpV8' },
+    challenge: true,
+    unauthorizedResponse: req => {
+      res.redirect('https://swagger.io/');
+    }
+  })(req, res, next);
+}, swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 dotenv.config();
 
