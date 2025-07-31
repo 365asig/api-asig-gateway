@@ -1,4 +1,5 @@
 const express = require('express');
+const basicAuth = require('express-basic-auth');
 const dotenv = require('dotenv');
 const routes = require('./routes/api');
 const log = require('./middlewares/log');
@@ -9,7 +10,11 @@ const YAML = require('yamljs');
 const path = require('path');
 
 const swaggerDocument = YAML.load(path.join(__dirname, 'swagger.yaml'));
-app.use('/api/documentation', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/api/documentation', basicAuth({
+  users: { '365asig': 'X9rTq4LpV8' },
+  challenge: true,
+  unauthorizedResponse: req => 'Authorization'
+}), swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 dotenv.config();
 
@@ -32,4 +37,3 @@ const PORT = process.env.PORT;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`✅ Api Gateway Node running on port ${PORT}`);
 });
-
