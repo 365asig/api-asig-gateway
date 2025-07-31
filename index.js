@@ -14,10 +14,7 @@ const swaggerDocument = YAML.load(path.join(__dirname, 'swagger.yaml'));
 app.use('/api/documentation', (req, res, next) => {
   basicAuth({
     users: { '365asig': 'X9rTq4LpV8' },
-    challenge: true,
-    unauthorizedResponse: req => {
-      res.redirect('https://swagger.io/');
-    }
+    challenge: true
   })(req, res, next);
 }, swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
