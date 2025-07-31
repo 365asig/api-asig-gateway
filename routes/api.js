@@ -50,9 +50,23 @@ module.exports = (laravelApiUrl, apiKey) => {
     // ✅ Routes Green Card
     router.post('/green-card/calculate', createProxyMiddleware(proxyOptions('/green-card/calculate')));
     router.post('/green-card/calculate/save', createProxyMiddleware(proxyOptions('/green-card/save')));
-    router.get('/green-card/calculate/file/:id/:type', (req, res, next) => {
+    router.get('/green-card/file/:id/:type', (req, res, next) => {
         const { id, type } = req.params;
         return createProxyMiddleware(proxyOptions(`/green-card/${id}/file/${type}`))(req, res, next);
+    });
+
+    // ✅ Routes Travel Medical
+    router.get('/travel-medical/destinations', createProxyMiddleware(proxyOptions('/travel-medical/destinations')));
+    router.get('/travel-medical/products', createProxyMiddleware(proxyOptions('/travel-medical/products')));
+    router.get('/travel-medical/regions', createProxyMiddleware(proxyOptions('/travel-medical/regions')));
+    router.get('/travel-medical/scopes', createProxyMiddleware(proxyOptions('/travel-medical/scopes')));
+
+    router.options('/travel-medical/donaris/calculate', (req, res) => res.sendStatus(204)); // pentru preflight CORS
+    router.post('/travel-medical/donaris/calculate', createProxyMiddleware(proxyOptions('/travel-medical/donaris/calculate')));
+    router.post('/travel-medical/donaris/save', createProxyMiddleware(proxyOptions('/travel-medical/donaris/save')));
+    router.get('/travel-medical/donaris/:id/file/:type', (req, res, next) => {
+        const { id, type } = req.params;
+        return createProxyMiddleware(proxyOptions(`/travel-medical/donaris/${id}/file/${type}`))(req, res, next);
     });
 
     return router;

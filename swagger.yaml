@@ -4,6 +4,105 @@ info:
   version: 1.0.0
 
 paths:
+  /travel-medical/destinations:
+    get:
+      summary: Get list of travel destinations
+      tags: [Travel Medical]
+      responses:
+        '200':
+          description: List of available countries
+
+  /travel-medical/products:
+    get:
+      summary: Get list of travel insurance products
+      tags: [Travel Medical]
+      responses:
+        '200':
+          description: List of available products
+
+  /travel-medical/regions:
+    get:
+      summary: Get list of travel insurance regions
+      tags: [Travel Medical]
+      responses:
+        '200':
+          description: List of regions
+
+  /travel-medical/scopes:
+    get:
+      summary: Get list of travel insurance scopes
+      tags: [Travel Medical]
+      responses:
+        '200':
+          description: List of scopes
+
+  /travel-medical/donaris/calculate:
+    post:
+      summary: Calculate Travel Medical Insurance
+      tags: [Travel Medical]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TravelRequest'
+      responses:
+        '200':
+          description: Calculation result
+
+  /travel-medical/donaris/save:
+    post:
+      summary: Save Travel Medical Insurance request
+      tags: [Travel Medical]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TravelRequest'
+      responses:
+        '200':
+          description: Save response
+
+  /travel-medical/donaris/{id}/file/{type}:
+    get:
+      summary: Get Travel Medical Document
+      tags: [Travel Medical]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Document ID
+          schema:
+            type: string
+            example: "8770743"
+        - name: type
+          in: path
+          required: true
+          description: Type of document
+          schema:
+            type: string
+            enum:
+              - InsurancePolicy
+              - Contract
+              - Demand
+            example: InsurancePolicy
+      responses:
+        '200':
+          description: Base64 encoded PDF document
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  filename:
+                    type: string
+                    example: "contract-123.pdf"
+                  content:
+                    type: string
+                    format: byte
+                    description: Base64 encoded content
+                    example: "JVBERi0xLjQKJeLjz9MKMSAwIG9iago8PC..."
   /rca/calculate:
     post:
       summary: Calculate RCA
@@ -265,3 +364,58 @@ components:
         phone:
           type: string
           example: "+373600000000"
+    TravelCalculateRequest:
+      type: object
+      required:
+        - startDate
+        - endDate
+        - destination
+        - scope
+        - product_id
+        - persons
+      properties:
+        destination:
+          type: string
+          example: "73b2c1d7-a63d-4e8e-85cd-0347fe360723"
+        scope:
+          type: string
+          example: "16c00584-d3a2-11e9-81db-0cc47a1e4c63"
+        startDate:
+          type: string
+          format: date
+          example: "2025-07-29"
+        endDate:
+          type: string
+          format: date
+          example: "2025-08-08"
+        product_id:
+          type: string
+          example: "04951029-1df2-11e7-8125-0cc47a1e4c63"
+        covid_coverage:
+          type: boolean
+          example: true
+          nullable: true
+        sport:
+          type: string
+          example: "1324356347373737"
+          nullable: true
+        persons:
+          type: array
+          minItems: 1
+          items:
+            type: object
+            required:
+              - idnp
+              - fullName
+              - birthday
+            properties:
+              idnp:
+                type: string
+                example: "1234567890123"
+              fullName:
+                type: string
+                example: "Ion Popescu"
+              birthday:
+                type: string
+                format: date
+                example: "1990-02-21"
