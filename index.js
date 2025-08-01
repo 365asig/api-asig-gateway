@@ -1,4 +1,6 @@
 const express = require('express');
+const cors = require('cors');
+
 const basicAuth = require('express-basic-auth');
 const dotenv = require('dotenv');
 const routes = require('./routes/api');
@@ -27,6 +29,19 @@ if (!process.env.LARAVEL_API_URL || !process.env.API_KEY) {
 
 app.use(express.json());
 app.use(log);
+
+const allowedOrigins = ['http://localhost:3002', 'https://365asig.md'];
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('CORS blocat: Origin denied'));
+    }
+  }
+}));
+
 
 const apiRoutes = routes(process.env.LARAVEL_API_URL, process.env.API_KEY);
 app.use('/', apiRoutes);
