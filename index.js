@@ -30,7 +30,11 @@ if (!process.env.LARAVEL_API_URL || !process.env.API_KEY) {
 app.use(express.json());
 app.use(log);
 
-const allowedOrigins = ['http://localhost:3002', 'https://365asig.md'];
+$allowedOrigins = [
+  'https://365asig.md',
+  'https://www.365asig.md',
+  'http://localhost:3002'
+];
 
 app.use(cors({
   origin: function (origin, callback) {
