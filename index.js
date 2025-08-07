@@ -47,14 +47,10 @@ app.use(cors({
   credentials: true
 }));
 
-app.use(function (err, req, res, next) {
-  if (err instanceof Error && err.message.startsWith('CORS blocat')) {
-    res.status(403).json({ error: err.message });
-  } else {
-    next(err);
-  }
+app.use((req, res, next) => {
+  console.log(`[${req.method}] ${req.originalUrl} from Origin: ${req.headers.origin}`);
+  next();
 });
-
 
 const apiRoutes = routes(process.env.LARAVEL_API_URL, process.env.API_KEY);
 app.use('/', apiRoutes);
