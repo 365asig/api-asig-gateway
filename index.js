@@ -48,6 +48,14 @@ app.use(cors({
   exposedHeaders: ['Content-Length', 'X-Known-Header']
 }));
 
+app.use(function (err, req, res, next) {
+  if (err instanceof Error && err.message.startsWith('CORS blocat')) {
+    res.status(403).json({ error: err.message });
+  } else {
+    next(err);
+  }
+});
+
 
 const apiRoutes = routes(process.env.LARAVEL_API_URL, process.env.API_KEY);
 app.use('/', apiRoutes);

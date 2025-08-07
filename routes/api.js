@@ -38,6 +38,17 @@ module.exports = (laravelApiUrl, apiKey) => {
         }
     });
 
+    router.options('/*', (req, res) => {
+        res.set({
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET,POST,PUT,PATCH,DELETE,OPTIONS',
+            'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Requested-With, x-api-key',
+            'Access-Control-Allow-Credentials': 'true',
+            'Access-Control-Max-Age': '86400',
+        });
+        res.sendStatus(204);
+    });
+
     // ✅ Routes RCA
     router.post('/rca/calculate', createProxyMiddleware(proxyOptions('/rca/calculate')));
     router.post('/rca/save', createProxyMiddleware(proxyOptions('/rca/save')));
@@ -60,7 +71,6 @@ module.exports = (laravelApiUrl, apiKey) => {
     router.get('/travel-medical/regions', createProxyMiddleware(proxyOptions('/travel-medical/regions')));
     router.get('/travel-medical/scopes', createProxyMiddleware(proxyOptions('/travel-medical/scopes')));
 
-    router.options('/travel-medical/donaris/calculate', (req, res) => res.sendStatus(204));
     router.post('/travel-medical/donaris/calculate', createProxyMiddleware(proxyOptions('/travel-medical/donaris/calculate')));
     router.post('/travel-medical/donaris/save', createProxyMiddleware(proxyOptions('/travel-medical/donaris/save')));
     router.get('/travel-medical/donaris/:id/file/:type', (req, res, next) => {
