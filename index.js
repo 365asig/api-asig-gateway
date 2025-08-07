@@ -30,7 +30,7 @@ if (!process.env.LARAVEL_API_URL || !process.env.API_KEY) {
 app.use(express.json());
 app.use(log);
 
-$allowedOrigins = [
+const allowedOrigins = [
   'https://365asig.md',
   'https://www.365asig.md',
   'http://localhost:3002'
@@ -44,8 +44,7 @@ app.use(cors({
       callback(new Error('CORS blocat: Origin denied'));
     }
   },
-  credentials: true,
-  exposedHeaders: ['Content-Length', 'X-Known-Header']
+  credentials: true
 }));
 
 app.use(function (err, req, res, next) {
