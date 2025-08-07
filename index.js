@@ -43,8 +43,7 @@ app.use(cors({
     } else {
       callback(new Error('CORS blocat: Origin denied'));
     }
-  },
-  credentials: true
+  }
 }));
 
 app.use((req, res, next) => {
