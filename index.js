@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 
 const basicAuth = require('express-basic-auth');
-const dotenv = require('dotenv');
+const dotenv    = require('dotenv');
 const routes = require('./routes/api');
 const log = require('./middlewares/log');
 const app = express();

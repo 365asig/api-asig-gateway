@@ -16,6 +16,7 @@ module.exports = (laravelApiUrl, apiKey) => {
     const proxyOptions = (targetPath) => ({
         target: laravelApiUrl,
         changeOrigin: true,
+        secure: false,
         pathRewrite: () => '/api' + targetPath,
         agent: keepAliveAgent,
         onProxyReq: (proxyReq, req, res) => {
