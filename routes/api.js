@@ -5,7 +5,6 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 module.exports = (laravelApiUrl, apiKey) => {
     const router = express.Router();
 
-    // ✅ Agent HTTP cu Keep-Alive
     const keepAliveAgent = new http.Agent({
         keepAlive: true,
         maxSockets: 100,
@@ -61,7 +60,7 @@ module.exports = (laravelApiUrl, apiKey) => {
     router.get('/travel-medical/regions', createProxyMiddleware(proxyOptions('/travel-medical/regions')));
     router.get('/travel-medical/scopes', createProxyMiddleware(proxyOptions('/travel-medical/scopes')));
 
-    router.options('/travel-medical/donaris/calculate', (req, res) => res.sendStatus(204)); // pentru preflight CORS
+    router.options('/travel-medical/donaris/calculate', (req, res) => res.sendStatus(204));
     router.post('/travel-medical/donaris/calculate', createProxyMiddleware(proxyOptions('/travel-medical/donaris/calculate')));
     router.post('/travel-medical/donaris/save', createProxyMiddleware(proxyOptions('/travel-medical/donaris/save')));
     router.get('/travel-medical/donaris/:id/file/:type', (req, res, next) => {

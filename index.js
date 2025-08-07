@@ -39,7 +39,9 @@ app.use(cors({
     } else {
       callback(new Error('CORS blocat: Origin denied'));
     }
-  }
+  },
+  credentials: true,
+  exposedHeaders: ['Content-Length', 'X-Known-Header']
 }));
 
 
