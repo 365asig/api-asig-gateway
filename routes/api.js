@@ -20,22 +20,29 @@ module.exports = (laravelApiUrl, apiKey) => {
         pathRewrite: () => '/api' + targetPath,
         agent: keepAliveAgent,
         onProxyReq: (proxyReq, req, res) => {
-            console.log(`➡️ Proxying to: ${laravelApiUrl}/api${targetPath}`);
-            proxyReq.setHeader('x-api-key', apiKey);
-
-            if (req.body && ['POST', 'PUT', 'PATCH'].includes(req.method)) {
-                const bodyData = JSON.stringify(req.body);
-                proxyReq.setHeader('Content-Type', 'application/json');
-                proxyReq.setHeader('Content-Length', Buffer.byteLength(bodyData));
-                proxyReq.write(bodyData);
-            }
+            console.log(res);
         },
-        onProxyRes: (proxyRes) => {
-            console.log(`✅ Laravel response with status: ${proxyRes.statusCode}`);
+        onProxyRes: (proxyRes, req, res) => {
+            res.setHeader('Access-Control-Allow-Origin', '*');
+            res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE,OPTIONS');
+            res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, x-api-key');
+            res.setHeader('Access-Control-Allow-Credentials', 'true');
+            res.setHeader('Access-Control-Max-Age', '86400');
+
+            const corsHeaders = {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'GET,POST,PUT,PATCH,DELETE,OPTIONS',
+                'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Requested-With, x-api-key',
+                'Access-Control-Allow-Credentials': 'true',
+                'Access-Control-Max-Age': '86400',
+            };
+
+            Object.entries(corsHeaders).forEach(([key, value]) => {
+                res.header(key, value);
+            });
         },
         onError: (err, req, res) => {
-            console.error('❌ Proxy error:', err.message);
-            res.status(500).json({ error: 'Proxy failed', details: err.message });
+            console.log(err);
         }
     });
 
