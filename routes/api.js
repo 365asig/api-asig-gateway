@@ -23,12 +23,6 @@ module.exports = (laravelApiUrl, apiKey) => {
             console.log(res);
         },
         onProxyRes: (proxyRes, req, res) => {
-            res.setHeader('Access-Control-Allow-Origin', '*');
-            res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE,OPTIONS');
-            res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, x-api-key');
-            res.setHeader('Access-Control-Allow-Credentials', 'true');
-            res.setHeader('Access-Control-Max-Age', '86400');
-
             const corsHeaders = {
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Methods': 'GET,POST,PUT,PATCH,DELETE,OPTIONS',
@@ -38,7 +32,7 @@ module.exports = (laravelApiUrl, apiKey) => {
             };
 
             Object.entries(corsHeaders).forEach(([key, value]) => {
-                res.header(key, value);
+                res.setHeader(key, value);
             });
         },
         onError: (err, req, res) => {
