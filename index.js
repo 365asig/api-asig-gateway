@@ -32,9 +32,13 @@ app.use(log);
 
 
 app.use(cors({
-  origin: function (origin, callback) {
+  origin: (origin, callback) => {
     callback(null, true);
-  }
+  },
+  methods: ['GET','POST','PUT','PATCH','DELETE','OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'x-api-key'],
+  credentials: true,
+  maxAge: 86400,
 }));
 
 app.use((req, res, next) => {
