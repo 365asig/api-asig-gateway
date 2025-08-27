@@ -130,7 +130,38 @@ paths:
       responses:
         '200':
           description: OK
-
+  /rca/file/{id}:
+    get:
+      summary: Get RCA File
+      tags: [Rca]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Document ID
+          schema:
+            type: string
+            example: "8744747"
+      responses:
+        '200':
+          description: JSON response with file information or null if not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    description: Indicates if the request was successful
+                    example: true
+                  message:
+                    type: string
+                    nullable: true
+                    description: Error or informational message
+                    example: "Document not found"
+                  data:
+                    type: object
+                    nullable: true
   /rca/file/{id}/{type}:
     get:
       summary: Get RCA file

@@ -23,16 +23,20 @@ module.exports = (laravelApiUrl, apiKey) => {
             console.log(`➡️ Proxying to: ${laravelApiUrl}/api${targetPath}`);
             proxyReq.setHeader('x-api-key', apiKey);
 
-            if (req.body && ['POST', 'PUT', 'PATCH'].includes(req.method)) {
-                const bodyData = JSON.stringify(req.body);
-                proxyReq.setHeader('Content-Type', 'application/json');
-                proxyReq.setHeader('Content-Length', Buffer.byteLength(bodyData));
-                proxyReq.write(bodyData);
+            if (process.env.NODE_ENV === 'development') {
+                if (['POST', 'PUT', 'PATCH'].includes(req.method)) {
+                    if (req.body && Object.keys(req.body).length) {
+                        const bodyData = JSON.stringify(req.body);
+                        proxyReq.setHeader('Content-Type', 'application/json');
+                        proxyReq.setHeader('Content-Length', Buffer.byteLength(bodyData));
+                        proxyReq.write(bodyData);
+                        proxyReq.end();
+                    }
+                }
             }
         },
         onProxyRes: (proxyRes, req, res) => {
             console.log(`✅ Laravel response with status: ${proxyRes.statusCode}`);
-            // NU seta headerele CORS aici daca ai middleware cors deja
         },
         onError: (err, req, res) => {
             console.error('❌ Proxy error:', err.message);
@@ -61,6 +65,10 @@ module.exports = (laravelApiUrl, apiKey) => {
     router.get('/rca/file/:id/:type', (req, res, next) => {
         const { id, type } = req.params;
         return createProxyMiddleware(proxyOptions(`/rca/${id}/file/${type}`))(req, res, next);
+    });
+    router.get('/rca/:id/file', (req, res, next) => {
+        const { id } = req.params;
+        return createProxyMiddleware(proxyOptions(`/rca/${id}/file`))(req, res, next);
     });
 
     // ✅ Routes Green Card
