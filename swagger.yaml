@@ -130,6 +130,7 @@ paths:
       responses:
         '200':
           description: OK
+
   /rca/file/{id}:
     get:
       summary: Get RCA File
@@ -162,6 +163,7 @@ paths:
                   data:
                     type: object
                     nullable: true
+
   /rca/file/{id}/{type}:
     get:
       summary: Get RCA file
