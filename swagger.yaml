@@ -133,7 +133,7 @@ paths:
 
   /rca/file/{id}:
     get:
-      summary: Get RCA File
+      summary: Get RCA
       tags: [Rca]
       parameters:
         - name: id
@@ -166,7 +166,7 @@ paths:
 
   /rca/file/{id}/{type}:
     get:
-      summary: Get RCA file
+      summary: Get RCA FILE BY TYPE
       tags: [Rca]
       parameters:
         - name: id
