@@ -23,17 +23,16 @@ module.exports = (laravelApiUrl, apiKey) => {
             console.log(`➡️ Proxying to: ${laravelApiUrl}/api${targetPath}`);
             proxyReq.setHeader('x-api-key', apiKey);
 
-            if (process.env.NODE_ENV === 'development') {
-                if (['POST', 'PUT', 'PATCH'].includes(req.method)) {
-                    if (req.body && Object.keys(req.body).length) {
-                        const bodyData = JSON.stringify(req.body);
-                        proxyReq.setHeader('Content-Type', 'application/json');
-                        proxyReq.setHeader('Content-Length', Buffer.byteLength(bodyData));
-                        proxyReq.write(bodyData);
-                        proxyReq.end();
-                    }
+            if (['POST', 'PUT', 'PATCH'].includes(req.method)) {
+                if (req.body && Object.keys(req.body).length) {
+                    const bodyData = JSON.stringify(req.body);
+                    proxyReq.setHeader('Content-Type', 'application/json');
+                    proxyReq.setHeader('Content-Length', Buffer.byteLength(bodyData));
+                    proxyReq.write(bodyData);
+                    proxyReq.end();
                 }
             }
+
         },
         onProxyRes: (proxyRes, req, res) => {
             console.log(`✅ Laravel response with status: ${proxyRes.statusCode}`);
