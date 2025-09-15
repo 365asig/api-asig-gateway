@@ -9,7 +9,7 @@ module.exports = (laravelApiUrl, apiKey) => {
         keepAlive: true,
         maxSockets: 100,
         maxFreeSockets: 10,
-        timeout: 60000,
+        timeout: 300000,
         keepAliveMsecs: 30000,
     });
 
