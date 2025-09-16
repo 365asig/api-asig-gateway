@@ -389,6 +389,31 @@ components:
           type: string
           example: "+373600000000"
 
+    RcaDocument:
+      type: object
+      properties:
+        Id:
+          type: integer
+          example: 8800957
+        ContractNumber:
+          type: string
+          example: "TEST-008800957"
+        EmployeeId:
+          type: integer
+          example: 36023
+        CompanyId:
+          type: integer
+          example: 88
+        BrokerAgentId:
+          type: integer
+          example: 0
+        CompanyPopId:
+          type: integer
+          example: 0
+        PersonId:
+          type: integer
+          example: 776056
+
     GreenCardCalculateRequest:
       type: object
       required:
