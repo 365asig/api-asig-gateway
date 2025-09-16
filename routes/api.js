@@ -19,6 +19,8 @@ module.exports = (laravelApiUrl, apiKey) => {
         secure: false,
         pathRewrite: () => '/api' + targetPath,
         agent: keepAliveAgent,
+        proxyTimeout: 300000,
+        timeout: 300000,
         onProxyReq: (proxyReq, req, res) => {
             console.log(`➡️ Proxying to: ${laravelApiUrl}/api${targetPath}`);
             proxyReq.setHeader('x-api-key', apiKey);
@@ -61,14 +63,15 @@ module.exports = (laravelApiUrl, apiKey) => {
     // ✅ Routes RCA
     router.post('/rca/calculate', createProxyMiddleware(proxyOptions('/rca/calculate')));
     router.post('/rca/save', createProxyMiddleware(proxyOptions('/rca/save')));
-    router.get('/rca/file/:id/:type', (req, res, next) => {
+    router.get('/rca/:id/document', (req, res, next) => {
+        const { id } = req.params;
+        return createProxyMiddleware(proxyOptions(`/rca/${id}/document`))(req, res, next);
+    });
+    router.get('/rca/:id/file/:type', (req, res, next) => {
         const { id, type } = req.params;
         return createProxyMiddleware(proxyOptions(`/rca/${id}/file/${type}`))(req, res, next);
     });
-    router.get('/rca/:id/file', (req, res, next) => {
-        const { id } = req.params;
-        return createProxyMiddleware(proxyOptions(`/rca/${id}/file`))(req, res, next);
-    });
+    // End
 
     // ✅ Routes Green Card
     router.post('/green-card/calculate', createProxyMiddleware(proxyOptions('/green-card/calculate')));
@@ -77,6 +80,7 @@ module.exports = (laravelApiUrl, apiKey) => {
         const { id, type } = req.params;
         return createProxyMiddleware(proxyOptions(`/green-card/${id}/file/${type}`))(req, res, next);
     });
+    // End
 
     // ✅ Routes Travel Medical
     router.get('/travel-medical/destinations', createProxyMiddleware(proxyOptions('/travel-medical/destinations')));
