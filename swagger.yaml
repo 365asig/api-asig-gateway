@@ -93,11 +93,9 @@ paths:
                 properties:
                   filename:
                     type: string
-                    example: "contract-123.pdf"
                   content:
                     type: string
                     format: byte
-                    example: "JVBERi0xLjQKJeLjz9MKMSAwIG9iago8PC..."
 
   # ------------------ RCA ------------------
   /rca/calculate:
@@ -141,7 +139,7 @@ paths:
             example: "8744747"
       responses:
         '200':
-          description: JSON response with file information or null if not found
+          description: JSON response with file information or null
           content:
             application/json:
               schema:
@@ -185,7 +183,6 @@ paths:
                 properties:
                   filename:
                     type: string
-                    example: "contract-123.pdf"
                   content:
                     type: string
                     format: byte
@@ -307,14 +304,13 @@ paths:
                 properties:
                   filename:
                     type: string
-                    example: "contract-123.pdf"
                   content:
                     type: string
                     format: byte
 
 components:
   schemas:
-    # ------------------ RCA Schemas ------------------
+    # ------------------ RCA ------------------
     RcaRequest:
       type: object
       required: [id, certificate]
@@ -385,7 +381,7 @@ components:
           type: integer
           example: 776056
 
-    # ------------------ Green Card Schemas ------------------
+    # ------------------ Green Card ------------------
     GreenCardCalculateRequest:
       type: object
       required: [id, certificate, greenCardZone, termInsurance]
@@ -440,7 +436,7 @@ components:
           type: string
           example: "+373600000000"
 
-    # ------------------ Travel Medical Schemas ------------------
+    # ------------------ Travel Medical ------------------
     TravelCalculateRequest:
       type: object
       required: [startDate, endDate, destination, scope, product_id, persons]
