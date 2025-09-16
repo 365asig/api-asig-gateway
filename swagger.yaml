@@ -131,7 +131,7 @@ paths:
         '200':
           description: OK
 
-  /rca/file/{id}:
+  /rca/{id}/document:
     get:
       summary: Get RCA
       tags: [Rca]
@@ -201,6 +201,41 @@ paths:
                     format: byte
                     description: Base64 encoded content
                     example: "JVBERi0xLjQKJeLjz9MKMSAwIG9iago8PC..."
+  /rca/documents:
+    post:
+      summary: Get RCA Documents List (search)
+      tags: [Rca]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                start:
+                  type: string
+                  format: date
+                  example: "2025-07-01"
+                end:
+                  type: string
+                  format: date
+                  example: "2025-07-15"
+      responses:
+        '200':
+          description: List of RCA documents
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RcaDocument'
+
 
   /green-card/calculate:
     post:
@@ -229,7 +264,31 @@ paths:
       responses:
         '200':
           description: OK
-
+  /green-card/{id}/document:
+    get:
+      summary: Get Green Card Document by ID
+      tags: [Green Card]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Document ID
+          schema:
+            type: string
+            example: "8744747"
+      responses:
+        '200':
+          description: Green Card Document object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
   /green-card/file/{id}/{type}:
     get:
       summary: Get Green Card Document
@@ -452,3 +511,4 @@ components:
                 type: string
                 format: date
                 example: "1990-02-21"
+

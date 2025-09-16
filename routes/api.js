@@ -71,11 +71,16 @@ module.exports = (laravelApiUrl, apiKey) => {
         const { id, type } = req.params;
         return createProxyMiddleware(proxyOptions(`/rca/${id}/file/${type}`))(req, res, next);
     });
+    router.post('/rca/documents', createProxyMiddleware(proxyOptions('/rca/documents')));
     // End
 
     // ✅ Routes Green Card
     router.post('/green-card/calculate', createProxyMiddleware(proxyOptions('/green-card/calculate')));
     router.post('/green-card/calculate/save', createProxyMiddleware(proxyOptions('/green-card/save')));
+    router.get('/green-card/:id/document', (req, res, next) => {
+        const { id } = req.params;
+        return createProxyMiddleware(proxyOptions(`/green-card/${id}/document`))(req, res, next);
+    });
     router.get('/green-card/file/:id/:type', (req, res, next) => {
         const { id, type } = req.params;
         return createProxyMiddleware(proxyOptions(`/green-card/${id}/file/${type}`))(req, res, next);
@@ -94,6 +99,7 @@ module.exports = (laravelApiUrl, apiKey) => {
         const { id, type } = req.params;
         return createProxyMiddleware(proxyOptions(`/travel-medical/donaris/${id}/file/${type}`))(req, res, next);
     });
+    // End
 
     return router;
 };
