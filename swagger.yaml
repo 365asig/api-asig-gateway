@@ -73,20 +73,15 @@ paths:
         - name: id
           in: path
           required: true
-          description: Document ID
           schema:
             type: string
             example: "8770743"
         - name: type
           in: path
           required: true
-          description: Type of document
           schema:
             type: string
-            enum:
-              - InsurancePolicy
-              - Contract
-              - Demand
+            enum: [InsurancePolicy, Contract, Demand]
             example: InsurancePolicy
       responses:
         '200':
@@ -102,7 +97,6 @@ paths:
                   content:
                     type: string
                     format: byte
-                    description: Base64 encoded content
                     example: "JVBERi0xLjQKJeLjz9MKMSAwIG9iago8PC..."
 
   # ------------------ RCA ------------------
@@ -142,7 +136,6 @@ paths:
         - name: id
           in: path
           required: true
-          description: Document ID
           schema:
             type: string
             example: "8744747"
@@ -180,10 +173,7 @@ paths:
           required: true
           schema:
             type: string
-            enum:
-              - InsurancePolicy
-              - Contract
-              - Demand
+            enum: [InsurancePolicy, Contract, Demand]
             example: InsurancePolicy
       responses:
         '200':
@@ -305,10 +295,7 @@ paths:
           required: true
           schema:
             type: string
-            enum:
-              - InsurancePolicy
-              - Contract
-              - Demand
+            enum: [InsurancePolicy, Contract, Demand]
             example: InsurancePolicy
       responses:
         '200':
@@ -330,9 +317,7 @@ components:
     # ------------------ RCA Schemas ------------------
     RcaRequest:
       type: object
-      required:
-        - id
-        - certificate
+      required: [id, certificate]
       properties:
         id:
           type: string
@@ -346,15 +331,7 @@ components:
 
     RcaSaveRequest:
       type: object
-      required:
-        - id
-        - certificate
-        - startDate
-        - possessionBase
-        - personType
-        - company
-        - email
-        - phone
+      required: [id, certificate, startDate, possessionBase, personType, company, email, phone]
       properties:
         id:
           type: string
@@ -411,11 +388,7 @@ components:
     # ------------------ Green Card Schemas ------------------
     GreenCardCalculateRequest:
       type: object
-      required:
-        - id
-        - certificate
-        - greenCardZone
-        - termInsurance
+      required: [id, certificate, greenCardZone, termInsurance]
       properties:
         id:
           type: string
@@ -432,17 +405,7 @@ components:
 
     GreenCardSaveRequest:
       type: object
-      required:
-        - id
-        - certificate
-        - startDate
-        - possessionBase
-        - termInsurance
-        - greenCardZone
-        - personType
-        - company
-        - email
-        - phone
+      required: [id, certificate, startDate, possessionBase, termInsurance, greenCardZone, personType, company, email, phone]
       properties:
         id:
           type: string
@@ -480,13 +443,7 @@ components:
     # ------------------ Travel Medical Schemas ------------------
     TravelCalculateRequest:
       type: object
-      required:
-        - startDate
-        - endDate
-        - destination
-        - scope
-        - product_id
-        - persons
+      required: [startDate, endDate, destination, scope, product_id, persons]
       properties:
         destination:
           type: string
@@ -518,10 +475,7 @@ components:
           minItems: 1
           items:
             type: object
-            required:
-              - idnp
-              - fullName
-              - birthday
+            required: [idnp, fullName, birthday]
             properties:
               idnp:
                 type: string
