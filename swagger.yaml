@@ -201,6 +201,7 @@ paths:
                     format: byte
                     description: Base64 encoded content
                     example: "JVBERi0xLjQKJeLjz9MKMSAwIG9iago8PC..."
+
   /rca/documents:
     post:
       summary: Get RCA Documents List (search)
@@ -235,7 +236,6 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/RcaDocument'
-
 
   /green-card/calculate:
     post:
